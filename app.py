@@ -11,19 +11,19 @@ DATABASE = './database.sqlite3'
 @cross_origin()
 def xd():
         try:
-        if request.method == 'POST':
+            if request.method == 'POST':
             req = request.get_json(force=True) 
-            print(type(req))
+       
             response = []
-
             db = sqlite3.connect(DATABASE)
+            
             for i in req:
                 db.row_factory = sqlite3.Row
                 cur = db.cursor()
                 x = cur.execute('select centroide_lat, centroide_lon from localidades where localidad_censal_id=?',(req[i],))
                 y = dict(x.fetchone())
                 response.append(y)
-            
+
             return jsonify(response)
         except:
             pass
